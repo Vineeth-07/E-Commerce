@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.context.request.WebRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,5 +48,22 @@ class CustomExceptionHandlerTest {
         assertThat(body.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(body.getError()).isEqualTo("Invalid request");
         assertThat(body.getMessage()).isEqualTo("Password must be at least 6 characters long");
+    }
+
+    @Test
+    @DisplayName("Bad credentials are mapped to 401 Unauthorized")
+    void handleBadCredentialsReturnsUnauthorized() {
+        ResponseEntity<Object> response = customExceptionHandler.handleBadCredentialsException(
+                new BadCredentialsException("Invalid UserName or Password"),
+                webRequest
+        );
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(response.getBody()).isInstanceOf(CustomErrorResponse.class);
+
+        CustomErrorResponse body = (CustomErrorResponse) response.getBody();
+        assertThat(body.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(body.getError()).isEqualTo("Authentication failed");
+        assertThat(body.getMessage()).isEqualTo("Invalid UserName or Password");
     }
 }
