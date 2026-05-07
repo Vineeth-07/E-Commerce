@@ -4,7 +4,7 @@ Sports Center is a full-stack e-commerce demo built with Spring Boot, React, MyS
 
 ## Stack
 
-- Backend: Java 21, Spring Boot, Spring Security, JPA
+- Backend: Java 17, Spring Boot, Spring Security, JPA
 - Frontend: React, TypeScript, Redux Toolkit, Material UI, Vite
 - Data: MySQL and Redis
 
@@ -75,3 +75,50 @@ No default personal account is seeded. Create an account from `/register`, then 
 ## Demo checkout
 
 The payment step is for demo purposes only. Card-style fields are UI-only and no real payment is captured, authorized, or stored by the backend.
+
+## Testing
+
+### Run all backend tests
+
+```bash
+./mvnw -Dmaven.repo.local=.m2/repository test
+```
+
+This runs both unit tests and integration tests.
+
+### Run a specific test class
+
+Example:
+
+```bash
+./mvnw -Dmaven.repo.local=.m2/repository -Dtest=UserAccountServiceTest test
+```
+
+You can replace `UserAccountServiceTest` with:
+
+- `AuthControllerTest`
+- `AuthControllerIntegrationTest`
+- `JwtHelperTest`
+- `CustomExceptionHandlerTest`
+
+### Integration test notes
+
+- The auth integration tests use Spring Boot, `MockMvc`, and the `test` profile.
+- The test profile lives in `src/test/resources/application-test.yaml`.
+- Integration tests run against an in-memory H2 database.
+- You do not need to start local MySQL or Redis to run the integration tests.
+
+## CI
+
+GitHub Actions is configured in `.github/workflows/ci.yml`.
+
+The workflow runs automatically on:
+
+- every `push`
+- every `pull_request`
+- manual runs from the GitHub Actions tab
+
+The pipeline currently runs:
+
+- backend Maven tests
+- frontend production build
