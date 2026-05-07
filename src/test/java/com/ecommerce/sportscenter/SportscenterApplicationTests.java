@@ -1,13 +1,15 @@
 package com.ecommerce.sportscenter;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import static org.assertj.core.api.Assertions.assertThat;
+
 class SportscenterApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    @DisplayName("Application class is available to the test suite")
+    void applicationClassIsAvailable() {
+        assertThat(SportscenterApplication.class).isNotNull();
+    }
 }

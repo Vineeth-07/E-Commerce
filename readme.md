@@ -4,7 +4,7 @@ Sports Center is a full-stack e-commerce demo built with Spring Boot, React, MyS
 
 ## Stack
 
-- Backend: Java 17, Spring Boot, Spring Security, JPA
+- Backend: Java 21, Spring Boot, Spring Security, JPA
 - Frontend: React, TypeScript, Redux Toolkit, Material UI, Vite
 - Data: MySQL and Redis
 
